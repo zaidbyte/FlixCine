@@ -34,7 +34,6 @@ export class StreamMafiaProvider extends BaseProvider {
     };
 
     async getMovieSources(media: ProviderMediaObject): Promise<ProviderResult> {
-        console.log(media)
         return this.getSources(media);
     }
 
