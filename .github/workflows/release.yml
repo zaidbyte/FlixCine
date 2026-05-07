@@ -237,40 +237,40 @@ jobs:
             
             case "$message" in
               feat:*|feat\(*|feature:*)
-                FEATURES="${FEATURES}- feat: ${LINK}\n"
+                FEATURES="${FEATURES}- feat: ${LINK}"
                 ;;
               fix:*|fix\(*)
-                FIXES="${FIXES}- fix: ${LINK}\n"
+                FIXES="${FIXES}- fix: ${LINK}"
                 ;;
               docs:*|docs\(*)
-                DOCS="${DOCS}- docs: ${LINK}\n"
+                DOCS="${DOCS}- docs: ${LINK}"
                 ;;
               chore:*|chore\(*|ci:*|ci\(*|build:*|build\(*)
-                CHORES="${CHORES}- chore: ${LINK}\n"
+                CHORES="${CHORES}- chore: ${LINK}"
                 ;;
               *BREAKING*|*breaking*|*!:*)
-                BREAKING="${BREAKING}- breaking change: [${message}](${REPO_URL}/commit/${short_hash})\n"
+                BREAKING="${BREAKING}- breaking change: [${message}](${REPO_URL}/commit/${short_hash})"
                 ;;
               *)
-                OTHERS="${OTHERS}- ${LINK}\n"
+                OTHERS="${OTHERS}- ${LINK}"
                 ;;
             esac
           done <<< "$HASHES"
 
-          NOTES="## Release $CURRENT_TAG\n\n"
+          NOTES="## Release $CURRENT_TAG"
           if [ -n "$PREV_TAG" ]; then
-            NOTES="${NOTES}Changes since \`${PREV_TAG}\`:\n\n"
+            NOTES="${NOTES}Changes since \`${PREV_TAG}\`:"
           fi
-          NOTES="${NOTES}Release commit: [\`${{ github.event.workflow_run.head_sha || github.sha }}\`](${REPO_URL}/commit/${{ github.event.workflow_run.head_sha || github.sha }}).\n\n"
+          NOTES="${NOTES}Release commit: [\`${{ github.event.workflow_run.head_sha || github.sha }}\`](${REPO_URL}/commit/${{ github.event.workflow_run.head_sha || github.sha }})."
 
-          [ -n "$BREAKING" ] && NOTES="${NOTES}### ⚠️ Breaking Changes\n$(printf %s "$BREAKING")\n"
-          [ -n "$FEATURES" ] && NOTES="${NOTES}### ✨ Features\n$(printf %s "$FEATURES")\n"
-          [ -n "$FIXES" ] && NOTES="${NOTES}### 🐛 Bug Fixes\n$(printf %s "$FIXES")\n"
-          [ -n "$DOCS" ] && NOTES="${NOTES}### 📚 Documentation\n$(printf %s "$DOCS")\n"
-          [ -n "$CHORES" ] && NOTES="${NOTES}### 🔧 Maintenance\n$(printf %s "$CHORES")\n"
-          [ -n "$OTHERS" ] && NOTES="${NOTES}### 📦 Other Changes\n$(printf %s "$OTHERS")\n"
+          [ -n "$BREAKING" ] && NOTES="${NOTES}### ⚠️ Breaking Changes$(printf %s "$BREAKING")"
+          [ -n "$FEATURES" ] && NOTES="${NOTES}### ✨ Features$(printf %s "$FEATURES")"
+          [ -n "$FIXES" ] && NOTES="${NOTES}### 🐛 Bug Fixes$(printf %s "$FIXES")"
+          [ -n "$DOCS" ] && NOTES="${NOTES}### 📚 Documentation$(printf %s "$DOCS")"
+          [ -n "$CHORES" ] && NOTES="${NOTES}### 🔧 Maintenance$(printf %s "$CHORES")"
+          [ -n "$OTHERS" ] && NOTES="${NOTES}### 📦 Other Changes$(printf %s "$OTHERS")"
 
-          NOTES="${NOTES}## Quick start\n\nStart the latest version:\n\n\`\`\`bash\ndocker run --name cinepro-core-${{ needs.prepare.outputs.app_version }} -p 3000:3000 -e TMDB_API_KEY=your-tmdb-key ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LC }}:latest\n\`\`\`\n\n## For more details, check the [CinePro documentation](https://docs.cinepro.cc) and the [Version History](https://docs.cinepro.cc/core/versions)."
+          NOTES="${NOTES}## Quick startStart the latest version:\`\`\`bashdocker run --name cinepro-core-${{ needs.prepare.outputs.app_version }} -p 3000:3000 -e TMDB_API_KEY=your-tmdb-key ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LC }}:latest\`\`\`## For more details, check the [CinePro documentation](https://docs.cinepro.cc) and the [Version History](https://docs.cinepro.cc/core/versions)."
 
           {
             echo "notes<<EOF"
