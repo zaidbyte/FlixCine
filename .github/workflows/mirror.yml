@@ -21,12 +21,12 @@ jobs:
       - name: Gather facts
         run: |
           echo "Repo variables:"
-          echo "  CODEBERG_URL: ${{ vars.CODEBERG_BASE_URL }}${{ vars.CODEBERG_REPO }}.git"
+          echo "  CODEBERG_URL: ${{ vars.CODEBERG_BASE_URL }}${{ github.repository }}.git"
           echo "  CODEBERG_USERNAME: ${{ vars.CODEBERG_USERNAME }}"
 
       - name: Mirror to Codeberg
         uses: yesolutions/mirror-action@master
         with:
-          REMOTE: ${{ vars.CODEBERG_BASE_URL }}${{ vars.CODEBERG_REPO }}.git
+          REMOTE: ${{ vars.CODEBERG_BASE_URL }}${{ github.repository }}.git
           GIT_USERNAME: ${{ vars.CODEBERG_USERNAME }}
           GIT_PASSWORD: ${{ secrets.CODEBERG_PASSWORD }}
